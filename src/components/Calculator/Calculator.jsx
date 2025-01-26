@@ -35,35 +35,25 @@ export default function Calculator() {
   }
 
   function calculate(characters) {
-    //Not finished work
+    const copyCharacters = characters.slice();
 
-    // const copyCharacters = characters.slice();
+    for (let i = 0; i < copyCharacters.length; i++) {
+      if (copyCharacters[i] === "*") {
+        const operation = copyCharacters[i - 1] * copyCharacters[i + 1];
+        copyCharacters.splice(i - 1, 3, operation);
+        i--;
+      } else if (copyCharacters[i] === "/") {
+        const operation = copyCharacters[i - 1] / copyCharacters[i + 1];
+        copyCharacters.splice(i - 1, 3, operation);
+        i--;
+      }
+    }
 
-    // console.log(copyCharacters);
-    // for (let i = 0; i < copyCharacters.length; i++) {
-    //   if (copyCharacters[i] === operators[2]) {
-    //     const indexOfMultiplication = copyCharacters.indexOf(copyCharacters[i]);
-    //     const prevNum = copyCharacters[indexOfMultiplication - 1];
-    //     const prevNumIndex = indexOfMultiplication - 1;
-    //     const nextNum = copyCharacters[indexOfMultiplication + 1];
-    //     const nextNumIndex = indexOfMultiplication + 1;
-    //     const operation = prevNum * nextNum;
-    //     copyCharacters.splice(prevNumIndex, 3, operation);
-    //     console.log(
-    //       indexOfMultiplication,
-    //       prevNumIndex,
-    //       nextNumIndex,
-    //       operation,
-    //       copyCharacters
-    //     );
-    //   }
-    // }
+    let resultValue = parseInt(copyCharacters[0]);
 
-    let resultValue = parseInt(characters[0]);
-
-    for (let i = 1; i < characters.length; i += 2) {
-      const operator = characters[i];
-      const nextNumber = parseInt(characters[i + 1]);
+    for (let i = 1; i < copyCharacters.length; i += 2) {
+      const operator = copyCharacters[i];
+      const nextNumber = parseInt(copyCharacters[i + 1]);
 
       switch (operator) {
         case "+":
@@ -71,12 +61,6 @@ export default function Calculator() {
           break;
         case "-":
           resultValue -= nextNumber;
-          break;
-        case "*":
-          resultValue *= nextNumber;
-          break;
-        case "/":
-          resultValue /= nextNumber;
           break;
         default:
           resultValue = "Error";
